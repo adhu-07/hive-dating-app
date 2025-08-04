@@ -127,7 +127,6 @@
             <input type="text" id="profile-branch" placeholder="Branch (e.g., 'Computer Science')" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500" required />
             <select id="profile-starter-select" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
               <option value="">Select a Conversation Starter</option>
-              <!-- Populated by JS -->
             </select>
             <textarea id="profile-starter-text" placeholder="Write or complete your opener line here..." rows="2" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500" required></textarea>
             <button type="submit" id="create-profile-button" class="mt-6 w-full px-6 py-3 bg-sky-500 text-white font-semibold rounded-full shadow-md hover:bg-sky-600 transition-colors duration-200">
@@ -357,7 +356,6 @@
       modal.backdrop.classList.remove('hidden');
     };
 
-    // Profile Creation UI
     const conversationStarters = [
       "My dream vacation would be...",
       "The best concert I ever saw was...",
@@ -366,20 +364,26 @@
       "If I could have any superpower, it would be...",
       "A fun fact about me is...",
     ];
-    const profileForm = document.getElementById('profile-creation-form');
-    const profileStarterSelect = document.getElementById('profile-starter-select');
-    const profileStarterText = document.getElementById('profile-starter-text');
-    conversationStarters.forEach(starter => {
-      const option = document.createElement('option');
-      option.value = starter;
-      option.textContent = starter;
-      profileStarterSelect.appendChild(option);
-    });
-    profileStarterSelect.onchange = (e) => {
-      profileStarterText.value = e.target.value;
+
+    const renderCreateProfilePage = () => {
+      const profileStarterSelect = document.getElementById('profile-starter-select');
+      const profileStarterText = document.getElementById('profile-starter-text');
+      // Clear existing options
+      profileStarterSelect.innerHTML = '<option value="">Select a Conversation Starter</option>';
+      conversationStarters.forEach(starter => {
+          const option = document.createElement('option');
+          option.value = starter;
+          option.textContent = starter;
+          profileStarterSelect.appendChild(option);
+      });
+
+      profileStarterSelect.onchange = (e) => {
+          profileStarterText.value = e.target.value;
+      };
     };
 
     // --- Form Submission Logic ---
+    const profileForm = document.getElementById('profile-creation-form');
     profileForm.onsubmit = async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -547,7 +551,6 @@
       }
     };
 
-    // --- Profile & Settings UI ---
     const renderProfilePage = () => {
       if (!state.profile) return;
       const container = document.getElementById('profile-details-container');
